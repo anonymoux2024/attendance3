@@ -1,0 +1,11 @@
+{
+  "appId": "com.fegtech.attendance.student",
+  "appName": "Attendance Student",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "http"
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}

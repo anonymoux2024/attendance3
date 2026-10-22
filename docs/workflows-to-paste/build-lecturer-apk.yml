@@ -1,0 +1,66 @@
+name: Build Lecturer APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'lecturer/**'
+      - 'scripts/**'
+      - 'signing/**'
+      - '.github/workflows/build-lecturer-apk.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v4
+
+      - name: Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Download libraries and face models into lecturer/www/vendor
+        run: bash scripts/fetch-vendor.sh lecturer
+
+      - name: Install Capacitor
+        working-directory: lecturer
+        run: npm install
+
+      - name: Create the Android project (lecturer/android)
+        working-directory: lecturer
+        run: npx cap add android
+
+      - name: Add our Android files (permissions, hotspot code, signing, icons)
+        run: |
+          pip install pillow
+          python3 scripts/prepare-android.py lecturer ${{ github.run_number }} 6.0.${{ github.run_number }}
+
+      - name: Copy the web files into the Android project
+        working-directory: lecturer
+        run: npx cap sync android
+
+      - name: Build the APK
+        working-directory: lecturer/android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon --stacktrace
+
+      - name: Keep the APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Lecturer-APK
+          path: lecturer/android/app/build/outputs/apk/release/*.apk
+          if-no-files-found: error

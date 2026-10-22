@@ -1,0 +1,78 @@
+*{box-sizing:border-box}html,body{margin:0;background:#06150d;color:#eef6ee;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+main{max-width:480px;margin:0 auto;padding:max(14px,env(safe-area-inset-top)) 16px max(18px,env(safe-area-inset-bottom))}
+header{text-align:center}h1{margin:6px 0 0;font-size:22px;letter-spacing:.12em}header p{margin:2px 0 10px;color:#a9c0b0}
+.course{text-align:center;font-weight:700;color:#f0b83a;min-height:1.3em;margin:0 0 8px}
+.cam{position:relative;aspect-ratio:3/4;max-height:62vh;width:100%;background:#000;border-radius:18px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}video.rear{transform:none}
+.guide{pointer-events:none;position:absolute;width:68%;aspect-ratio:1;border:3px dashed rgba(255,255,255,.55);border-radius:18px}
+.msg{text-align:center;background:#12301e;border-radius:14px;padding:18px 12px;margin:14px 0;font-size:18px;font-weight:700}
+.msg.success{background:#d9f8e8;color:#08613a}.msg.error{background:#ffe8e8;color:#922c2c}
+button{display:block;width:100%;padding:15px;border:0;border-radius:14px;background:#0a6a1c;color:#fff;font-size:17px;font-weight:700}
+.fine{text-align:center;color:#8fa898;font-size:13px}
+button.ghost{background:transparent;border:1px solid #0a6a1c;color:#f0b83a;margin-top:10px}
+button:disabled{opacity:.5}label{display:block;margin:10px 0;font-size:14px;color:#a9c0b0}
+input:not([type=checkbox]){display:block;width:100%;margin-top:4px;padding:12px;border-radius:10px;border:1px solid #21502f;background:#0c2216;color:#eef6ee;font-size:16px}
+label.chk{display:flex;gap:10px;align-items:flex-start;color:#d3e4d6}label.chk input{margin-top:3px;width:20px;height:20px;flex:none}
+h2{font-size:18px;text-align:center;margin:8px 0}#rv{width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}
+[hidden]{display:none!important}
+
+/* ---- 4.2: name suggestions ---- */
+label.hasSuggest{position:relative}
+.suggest{position:absolute;left:0;right:0;top:100%;z-index:30;margin-top:-2px;background:#0c2216;border:1px solid #0a6a1c;border-radius:12px;box-shadow:0 12px 28px #000a;overflow:hidden}
+.suggest button{display:flex;flex-direction:column;align-items:flex-start;width:100%;text-align:left;background:transparent;color:#eef6ee;border:0;border-bottom:1px solid #21502f;border-radius:0;padding:11px 12px;gap:2px;font-size:16px;font-weight:600}
+.suggest button:last-child{border-bottom:0}
+.suggest button small{color:#a9c0b0;font-size:13px;font-weight:500}
+.suggest button.on,.suggest button:hover{background:#14442a}
+
+/* ---- 4.3: camera buttons ---- */
+.camtools{position:absolute;top:10px;right:10px;z-index:5;display:flex;flex-direction:column;gap:8px}
+.camtools button{width:40px;height:40px;padding:0;margin:0;border-radius:50%;display:grid;place-items:center;font-size:18px;line-height:1;background:rgba(6,13,36,.6);border:1px solid rgba(255,255,255,.4)}
+.camtools button.on{background:#0a6a1c;border-color:#f0b83a}
+.camtools button:focus-visible{outline:2px solid #f0b83a;outline-offset:2px}
+#rv.rear{transform:none}
+html.enh .cam video{filter:brightness(var(--g,1)) contrast(1.05) saturate(1.06)}
+.cam.lit::after{content:"";position:absolute;inset:0;border:16px solid #fff;border-radius:18px;pointer-events:none;z-index:4;box-shadow:inset 0 0 28px 6px rgba(255,255,255,.6)}
+
+/* ---- 4.4: iPhone-style motion (opacity and transform only; off when the phone asks for reduced motion) ---- */
+@media(prefers-reduced-motion:no-preference){
+:root{--ease-ios:cubic-bezier(.32,.72,0,1);--ease-spring:cubic-bezier(.34,1.56,.64,1)}
+main{animation:fcRise .7s var(--ease-ios) backwards}
+#home.mv:not([hidden]){animation:fcPop .42s var(--ease-ios) backwards}
+#reg.mv:not([hidden]){animation:fcPush .42s var(--ease-ios) backwards}
+.suggest:not([hidden]){transform-origin:top center;animation:fcDrop .22s var(--ease-ios) backwards}
+button{transition:transform .18s var(--ease-ios),opacity .2s,background .2s}
+button:active:not(:disabled){transform:scale(.97)}
+.camtools button:active{transform:scale(.9)}
+@keyframes fcRise{from{opacity:0;transform:translateY(16px) scale(.985)}}
+@keyframes fcPush{from{opacity:0;transform:translateX(30px)}}
+@keyframes fcPop{from{opacity:0;transform:translateX(-30px)}}
+@keyframes fcDrop{from{opacity:0;transform:translateY(-6px) scale(.98)}}
+}
+
+/* ---- 4.5: Federal University Otuoke branding (colours sampled from the crest) ---- */
+:root{--fuo-green:#00530f;--fuo-green-d:#06240f;--fuo-green-b:#0a6a1c;--fuo-gold:#d4951a;--fuo-gold-l:#f0b83a;--fuo-blue:#3090e0}
+html,body{background:#06150d}body{background:radial-gradient(620px 420px at 50% 0,#0c3a1a,#06150d 72%) fixed no-repeat #06150d}
+header{position:relative;padding:4px 0 14px;margin-bottom:8px}
+header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,#d4951a00,var(--fuo-gold-l) 50%,#d4951a00)}
+.brandbox{display:flex;align-items:center;justify-content:center;gap:12px;text-align:left}
+img.crest{width:52px;height:52px;flex:none;filter:drop-shadow(0 2px 6px #000b)}
+header h1{margin:0;font-size:21px;letter-spacing:.12em;line-height:1.15}
+header p{margin:3px 0 0;font-size:12.5px;color:#f3d48a}
+.guide{border-color:#f0b83acc}
+button:focus-visible,input:focus-visible{outline:2px solid var(--fuo-gold-l);outline-offset:2px}
+button.ghost{border-color:var(--fuo-gold);color:var(--fuo-gold-l)}
+.suggest{border-color:var(--fuo-gold)}.suggest button.on,.suggest button:hover{background:#14442a}
+.camtools button{background:rgba(6,36,15,.7);border-color:#f0b83a99}.camtools button.on{background:#0a6a1c;border-color:#f0b83a}
+.msg{border:1px solid #f0b83a22}
+/* launch screen: crest, as in the staff app */
+#splash{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:radial-gradient(520px 420px at 50% 42%,#0c3a1a,#0b1220 70%);color:#fff;transition:opacity .5s ease,transform .7s cubic-bezier(.32,.72,0,1),visibility .5s}
+#splash.out{opacity:0;visibility:hidden;transform:scale(1.07)}
+#splash img{width:150px;height:150px;animation:fuoIn .7s cubic-bezier(.2,.8,.2,1) both;filter:drop-shadow(0 10px 24px #000b)}
+#splash b{margin-top:14px;font-size:22px;letter-spacing:.14em;font-weight:800;animation:fuoUp .6s .35s both}
+#splash span{font-size:14px;color:#f3d48a;animation:fuoUp .6s .5s both}
+#splash i{display:block;width:120px;height:2px;margin-top:16px;background:linear-gradient(90deg,#d4951a00,var(--fuo-gold-l),#d4951a00);animation:fuoLine .8s .6s both}
+@keyframes fuoIn{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:none}}
+@keyframes fuoUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes fuoLine{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media(prefers-reduced-motion:reduce){#splash img,#splash b,#splash span,#splash i{animation:none}}
+.pcrest{display:block;width:64px;height:64px;margin:4px auto 6px;filter:drop-shadow(0 3px 8px #000a)}

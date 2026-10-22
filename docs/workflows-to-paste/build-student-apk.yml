@@ -1,0 +1,66 @@
+name: Build Student APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'student/**'
+      - 'scripts/**'
+      - 'signing/**'
+      - '.github/workflows/build-student-apk.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v4
+
+      - name: Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Download libraries and face models into student/www/vendor
+        run: bash scripts/fetch-vendor.sh student
+
+      - name: Install Capacitor
+        working-directory: student
+        run: npm install
+
+      - name: Create the Android project (student/android)
+        working-directory: student
+        run: npx cap add android
+
+      - name: Add our Android files (permissions, hotspot code, signing, icons)
+        run: |
+          pip install pillow
+          python3 scripts/prepare-android.py student ${{ github.run_number }} 6.0.${{ github.run_number }}
+
+      - name: Copy the web files into the Android project
+        working-directory: student
+        run: npx cap sync android
+
+      - name: Build the APK
+        working-directory: student/android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon --stacktrace
+
+      - name: Keep the APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Student-APK
+          path: student/android/app/build/outputs/apk/release/*.apk
+          if-no-files-found: error

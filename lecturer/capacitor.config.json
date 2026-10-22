@@ -1,0 +1,11 @@
+{
+  "appId": "com.fegtech.attendance.lecturer",
+  "appName": "Attendance Lecturer",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "http"
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}

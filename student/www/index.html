@@ -1,0 +1,22 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>ATTENDANCE · Student check-in</title><meta name="theme-color" content="#06240f"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg"><link rel="stylesheet" href="style.css">
+<script src="vendor/jsQR.js" defer></script>
+<script src="vendor/face-api.min.js" defer></script>
+<script src="config.js" defer></script><script src="student.js" defer></script><script src="register.js" defer></script><script src="roster.js" defer></script><script src="camtools.js" defer></script></head>
+<body><main><header><div class="brandbox"><img class="crest" src="logo.png" alt="Federal University Otuoke" width="52" height="52"><div><h1>ATTENDANCE</h1><p>Federal University Otuoke · Student check-in</p></div></div></header>
+<div id="home">
+<p id="course" class="course"></p>
+<div class="cam"><video id="v" autoplay muted playsinline></video><div class="guide"></div></div>
+<div id="msg" class="msg" role="status" aria-live="polite"></div>
+<button id="again" type="button" hidden>Scan again</button>
+<button id="goReg" type="button" class="ghost">First time? Register your face</button></div>
+<div id="reg" hidden>
+<img class="pcrest" src="logo.png" alt="" width="64" height="64"><h2>Register your face</h2><label>Full name<input id="rname" maxlength="100" autocomplete="name" placeholder="Same as on your school record"></label>
+<label>Matric number<input id="rmatric" maxlength="30" autocomplete="off" placeholder="Matriculation number"></label>
+<label>Level<input id="rlevel" maxlength="20" autocomplete="off" placeholder="e.g. ND1 or 100"></label>
+<label id="rcodeBox" hidden>Enrolment code<input id="rcode" maxlength="40" autocomplete="off" placeholder="Only if your department gave one"></label>
+<div class="cam"><video id="rv" autoplay muted playsinline></video><div class="guide"></div></div>
+<div id="rstat" class="msg" role="status" aria-live="polite"></div>
+<button id="rgo" type="button">Start face capture</button>
+<button id="rcheck" type="button" class="ghost" hidden>Check my registration</button>
+<button id="rback" type="button" class="ghost">Back to scanning</button></div></main>
+<div id="splash" aria-hidden="true"><img src="logo.png" alt=""><b>ATTENDANCE</b><span>Federal University Otuoke</span><i></i></div><script>(function(){var s=document.getElementById("splash");if(!s)return;var seen=false;try{seen=sessionStorage.getItem("fuoSplash")==="1";sessionStorage.setItem("fuoSplash","1")}catch(e){}if(seen){s.remove();return}setTimeout(function(){s.classList.add("out");setTimeout(function(){s.remove()},550)},1500)})();</script><script>if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))</script></body></html>
